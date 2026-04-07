@@ -1,0 +1,59 @@
+{
+  "case_id": "easy",
+  "difficulty": "easy",
+  "campaign": {
+    "name": "Summer Electronics Sale",
+    "duration_days": 14,
+    "total_budget": 10000,
+    "conversion_value": 10.0,
+    "investigation_budget": 10,
+    "industry_benchmarks": {
+      "avg_ctr": 0.020,
+      "avg_cvr": 0.030
+    }
+  },
+  "publishers": {
+    "pub_001": {
+      "name": "TechReview Daily",
+      "is_fraudulent": false,
+      "fraud_type": null,
+      "base_traffic_rate": 10000,
+      "true_ctr": 0.021,
+      "true_cvr": 0.031,
+      "cpm_rate": 2.0,
+      "budget_allocation": 0.5,
+      "suspicion_reactivity": 1.0,
+      "fraud_schedule": {},
+      "fake_ctr": 0.0,
+      "fake_cvr": 0.0,
+      "day_factors": [1.0, 1.02, 0.98, 1.01, 1.03, 0.97, 0.95, 1.04, 1.01, 0.99, 1.02, 1.03, 0.98, 1.0],
+      "noise_factors": [1.01, 0.99, 1.02, 0.98, 1.0, 1.01, 0.99, 1.01, 1.0, 0.99, 1.01, 1.0, 0.99, 1.01]
+    },
+    "pub_002": {
+      "name": "BargainClicks Network",
+      "is_fraudulent": true,
+      "fraud_type": "bot_traffic",
+      "base_traffic_rate": 8000,
+      "true_ctr": 0.019,
+      "true_cvr": 0.028,
+      "cpm_rate": 2.0,
+      "budget_allocation": 0.5,
+      "suspicion_reactivity": 0.3,
+      "fraud_schedule": {
+        "start_day": 2,
+        "ramp_days": 2,
+        "peak_intensity": 3.5
+      },
+      "fake_ctr": 0.08,
+      "fake_cvr": 0.0005,
+      "day_factors": [1.0, 1.03, 1.08, 1.15, 1.20, 1.22, 1.20, 1.23, 1.25, 1.23, 1.25, 1.23, 1.22, 1.20],
+      "noise_factors": [1.0, 1.01, 0.99, 1.02, 1.0, 0.98, 1.01, 1.0, 0.99, 1.02, 1.0, 0.98, 1.01, 1.0]
+    }
+  },
+  "ground_truth": {
+    "fraudulent_publishers": ["pub_002"],
+    "fraud_types": {
+      "pub_002": "bot_traffic"
+    }
+  }
+}

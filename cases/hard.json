@@ -1,0 +1,96 @@
+{
+  "case_id": "hard",
+  "difficulty": "hard",
+  "campaign": {
+    "name": "Global Auto Insurance Q4 Push",
+    "duration_days": 14,
+    "total_budget": 20000,
+    "conversion_value": 10.0,
+    "investigation_budget": 6,
+    "industry_benchmarks": {
+      "avg_ctr": 0.021,
+      "avg_cvr": 0.028
+    }
+  },
+  "publishers": {
+    "pub_001": {
+      "name": "AutoInsure Direct",
+      "is_fraudulent": false,
+      "fraud_type": null,
+      "base_traffic_rate": 11000,
+      "true_ctr": 0.023,
+      "true_cvr": 0.033,
+      "cpm_rate": 2.0,
+      "budget_allocation": 0.25,
+      "suspicion_reactivity": 1.0,
+      "fraud_schedule": {},
+      "fake_ctr": 0.0,
+      "fake_cvr": 0.0,
+      "day_factors": [1.0, 1.01, 0.99, 1.02, 1.0, 0.97, 0.94, 1.02, 1.01, 0.99, 1.01, 1.02, 0.98, 1.0],
+      "noise_factors": [1.0, 0.99, 1.01, 1.0, 1.01, 0.99, 1.0, 1.01, 0.99, 1.0, 1.01, 0.99, 1.0, 1.01]
+    },
+    "pub_002": {
+      "name": "SafeDrive Media",
+      "is_fraudulent": false,
+      "fraud_type": null,
+      "base_traffic_rate": 8000,
+      "true_ctr": 0.020,
+      "true_cvr": 0.029,
+      "cpm_rate": 2.0,
+      "budget_allocation": 0.25,
+      "suspicion_reactivity": 1.0,
+      "fraud_schedule": {},
+      "fake_ctr": 0.0,
+      "fake_cvr": 0.0,
+      "day_factors": [1.0, 0.99, 1.01, 1.0, 1.02, 0.97, 0.94, 1.01, 1.0, 0.99, 1.01, 1.0, 0.98, 1.01],
+      "noise_factors": [1.0, 1.01, 0.99, 1.0, 1.01, 0.99, 1.0, 1.01, 0.99, 1.0, 1.01, 0.99, 1.0, 1.01]
+    },
+    "pub_003": {
+      "name": "ShadowNet Ads",
+      "is_fraudulent": true,
+      "fraud_type": "domain_spoofing",
+      "base_traffic_rate": 12000,
+      "true_ctr": 0.019,
+      "true_cvr": 0.025,
+      "cpm_rate": 2.5,
+      "budget_allocation": 0.25,
+      "suspicion_reactivity": 1.8,
+      "fraud_schedule": {
+        "start_day": 4,
+        "ramp_days": 3,
+        "peak_intensity": 1.8
+      },
+      "fake_ctr": 0.025,
+      "fake_cvr": 0.003,
+      "day_factors": [1.0, 1.02, 1.04, 1.08, 1.10, 1.08, 1.10, 1.12, 1.10, 1.08, 1.10, 1.12, 1.10, 1.08],
+      "noise_factors": [1.0, 1.01, 0.99, 1.02, 1.0, 0.98, 1.01, 1.0, 0.99, 1.01, 1.0, 0.99, 1.01, 1.0]
+    },
+    "pub_004": {
+      "name": "ConvertMax Pro",
+      "is_fraudulent": true,
+      "fraud_type": "bot_traffic",
+      "base_traffic_rate": 9000,
+      "true_ctr": 0.021,
+      "true_cvr": 0.029,
+      "cpm_rate": 2.0,
+      "budget_allocation": 0.25,
+      "suspicion_reactivity": 1.5,
+      "fraud_schedule": {
+        "start_day": 5,
+        "ramp_days": 3,
+        "peak_intensity": 1.5
+      },
+      "fake_ctr": 0.04,
+      "fake_cvr": 0.002,
+      "day_factors": [1.0, 1.0, 1.0, 1.01, 1.03, 1.05, 1.06, 1.07, 1.06, 1.07, 1.06, 1.07, 1.06, 1.05],
+      "noise_factors": [1.0, 1.01, 0.99, 1.0, 1.01, 0.99, 1.02, 1.0, 0.98, 1.01, 1.0, 0.99, 1.01, 1.0]
+    }
+  },
+  "ground_truth": {
+    "fraudulent_publishers": ["pub_003", "pub_004"],
+    "fraud_types": {
+      "pub_003": "domain_spoofing",
+      "pub_004": "bot_traffic"
+    }
+  }
+}

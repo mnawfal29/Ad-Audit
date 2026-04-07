@@ -1,0 +1,96 @@
+{
+  "case_id": "medium",
+  "difficulty": "medium",
+  "campaign": {
+    "name": "Holiday Fashion Campaign",
+    "duration_days": 14,
+    "total_budget": 15000,
+    "conversion_value": 10.0,
+    "investigation_budget": 10,
+    "industry_benchmarks": {
+      "avg_ctr": 0.021,
+      "avg_cvr": 0.028
+    }
+  },
+  "publishers": {
+    "pub_001": {
+      "name": "StyleMaven Magazine",
+      "is_fraudulent": false,
+      "fraud_type": null,
+      "base_traffic_rate": 12000,
+      "true_ctr": 0.022,
+      "true_cvr": 0.032,
+      "cpm_rate": 2.5,
+      "budget_allocation": 0.30,
+      "suspicion_reactivity": 1.0,
+      "fraud_schedule": {},
+      "fake_ctr": 0.0,
+      "fake_cvr": 0.0,
+      "day_factors": [1.0, 1.01, 0.99, 1.02, 1.0, 0.97, 0.95, 1.03, 1.01, 0.99, 1.02, 1.0, 0.98, 1.01],
+      "noise_factors": [1.0, 0.99, 1.01, 1.0, 0.98, 1.02, 1.0, 0.99, 1.01, 1.0, 0.98, 1.01, 1.0, 0.99]
+    },
+    "pub_002": {
+      "name": "FashionForward Hub",
+      "is_fraudulent": false,
+      "fraud_type": null,
+      "base_traffic_rate": 7000,
+      "true_ctr": 0.019,
+      "true_cvr": 0.027,
+      "cpm_rate": 2.0,
+      "budget_allocation": 0.20,
+      "suspicion_reactivity": 1.0,
+      "fraud_schedule": {},
+      "fake_ctr": 0.0,
+      "fake_cvr": 0.0,
+      "day_factors": [1.0, 0.99, 1.01, 1.0, 1.02, 0.96, 0.94, 1.01, 1.0, 0.99, 1.01, 1.02, 0.98, 1.0],
+      "noise_factors": [1.0, 1.01, 0.99, 1.0, 1.01, 0.99, 1.0, 1.01, 0.99, 1.0, 1.01, 0.99, 1.0, 1.01]
+    },
+    "pub_003": {
+      "name": "LuxeAds Premium",
+      "is_fraudulent": true,
+      "fraud_type": "bot_traffic",
+      "base_traffic_rate": 11000,
+      "true_ctr": 0.020,
+      "true_cvr": 0.026,
+      "cpm_rate": 3.0,
+      "budget_allocation": 0.25,
+      "suspicion_reactivity": 0.5,
+      "fraud_schedule": {
+        "start_day": 3,
+        "ramp_days": 2,
+        "peak_intensity": 2.5
+      },
+      "fake_ctr": 0.06,
+      "fake_cvr": 0.001,
+      "day_factors": [1.0, 1.01, 1.0, 1.05, 1.10, 1.12, 1.10, 1.13, 1.12, 1.10, 1.12, 1.13, 1.11, 1.10],
+      "noise_factors": [1.01, 1.0, 0.99, 1.01, 1.0, 0.99, 1.01, 1.0, 0.98, 1.02, 1.0, 0.99, 1.01, 1.0]
+    },
+    "pub_004": {
+      "name": "ClickBoost Pro",
+      "is_fraudulent": true,
+      "fraud_type": "click_injection",
+      "base_traffic_rate": 8000,
+      "true_ctr": 0.018,
+      "true_cvr": 0.024,
+      "cpm_rate": 2.0,
+      "budget_allocation": 0.25,
+      "suspicion_reactivity": 0.5,
+      "fraud_schedule": {
+        "start_day": 3,
+        "ramp_days": 3,
+        "peak_intensity": 2.0
+      },
+      "fake_ctr": 0.04,
+      "fake_cvr": 0.07,
+      "day_factors": [1.0, 1.0, 1.0, 1.03, 1.06, 1.08, 1.10, 1.08, 1.10, 1.08, 1.10, 1.08, 1.10, 1.08],
+      "noise_factors": [1.0, 1.01, 0.99, 1.0, 0.98, 1.02, 1.0, 0.99, 1.01, 1.0, 0.99, 1.01, 1.0, 0.99]
+    }
+  },
+  "ground_truth": {
+    "fraudulent_publishers": ["pub_003", "pub_004"],
+    "fraud_types": {
+      "pub_003": "bot_traffic",
+      "pub_004": "click_injection"
+    }
+  }
+}
