@@ -406,7 +406,7 @@ def run_episode(task_name: str, llm_client: Optional[OpenAI]) -> None:
         state = env.state
         grader = state.grader_inputs
         score = grader.get("final_score", 0.0)
-        score = min(max(score, 0.0), 1.0)
+        score = min(max(score, 0.01), 0.99)
         success = score >= SUCCESS_SCORE_THRESHOLD
 
     finally:
