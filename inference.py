@@ -326,15 +326,7 @@ def get_rule_action(
 # Main
 # ---------------------------------------------------------------------------
 
-def main() -> None:
-    # Try to init LLM client; fall back to rule-based if it fails
-    llm_client: Optional[OpenAI] = None
-    try:
-        llm_client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
-        llm_client.models.list()
-    except Exception:
-        llm_client = None
-
+def run_episode(task_name: str, llm_client: Optional[OpenAI]) -> None:
     use_rules = llm_client is None
 
     env = AdAuditEnv()
@@ -353,10 +345,10 @@ def main() -> None:
     investigated: Dict[str, List[str]] = {}
     flagged: set = set()
 
-    log_start(task=TASK_NAME, env=BENCHMARK, model=MODEL_NAME if not use_rules else "rule-based")
+    log_start(task=task_name, env=BENCHMARK, model=MODEL_NAME if not use_rules else "rule-based")
 
     try:
-        obs = env.reset(episode_id=TASK_NAME)
+        obs = env.reset(episode_id=task_name)
         obs_dict = obs.model_dump()
 
         while not obs_dict.get("done", False) and steps_taken < EPISODE_DAYS:
@@ -419,6 +411,19 @@ def main() -> None:
 
     finally:
         log_end(success=success, steps=steps_taken, score=score, rewards=rewards)
+
+
+def main() -> None:
+    # Try to init LLM client; fall back to rule-based if it fails
+    llm_client: Optional[OpenAI] = None
+    try:
+        llm_client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
+        llm_client.models.list()
+    except Exception:
+        llm_client = None
+
+    for task in sorted(_VALID_TASKS):
+        run_episode(task, llm_client)
 
 
 if __name__ == "__main__":

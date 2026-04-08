@@ -132,10 +132,70 @@ Each step returns:
 
 ## Scoring
 
-Final score (0-1) is weighted:
-- **Fraud detection accuracy** (50%) — Correct flags with right fraud type
-- **Detection timeliness** (30%) — How early fraud was caught
-- **Investigation efficiency** (20%) — Budget usage and false positive avoidance
+### Step Reward
+
+Every action returns an immediate reward in **[0, 1]**, centered at 0.5 (neutral).
+
+| Action | Condition | Reward |
+|--------|-----------|--------|
+| `monitor` | No active fraud | 0.50 |
+| `monitor` | Active unflagged fraud | 0.40 → 0.20 (penalty grows day over day) |
+| `investigate_publisher` | Publisher is fraudulent | 0.55 → 0.65 (bonus for investigating early) |
+| `investigate_publisher` | Publisher is clean | 0.35 (wastes budget) |
+| `flag_fraud` | Correct publisher + correct fraud type | 0.95 → 1.00 (bonus for early flag) |
+| `flag_fraud` | Correct publisher, wrong fraud type | 0.70 |
+| `flag_fraud` | False positive | 0.05 |
+| `submit_report` | Any | 0.50 |
+| Invalid / malformed action | — | 0.05 |
+
+The monitor penalty formula: `0.50 - (0.10 + 0.20 × day/14)`, floored at 0.05. On day 1 the penalty is ~0.10; by day 14 it reaches ~0.30, reflecting increasing urgency as fraud compounds.
+
+### Final Score
+
+Computed at episode end, combining three weighted components into a score in **[0, 1]**:
+
+```
+final_score = 0.50 × accuracy + 0.30 × timeliness + 0.20 × efficiency
+```
+
+#### 1. Fraud Detection Accuracy (50%)
+
+Measures whether fraudulent publishers were correctly identified with the right fraud type.
+
+- **+1.0 / N** per fraudster flagged with the correct fraud type
+- **+0.5 / N** per fraudster flagged with the wrong fraud type
+- **−0.5 / N** per false positive (clean publisher flagged as fraudulent)
+
+Clamped to [0, 1].
+
+#### 2. Detection Timeliness (30%)
+
+Measures how quickly each fraudster was caught after fraud began.
+
+```
+timeliness = 1.0 − (day_flagged − fraud_start_day) / (14 − fraud_start_day)
+```
+
+- Flagging immediately when fraud starts → 1.0
+- Flagging on the final day → 0.0
+- Unflagged fraudster → 0.0
+- Averaged across all fraudsters.
+
+#### 3. Investigation Efficiency (20%)
+
+Measures whether investigations were targeted at real fraudsters without wasting budget.
+
+```
+efficiency = 0.5 × (useful_investigations / total_investigations)
+           + 0.3 × (1 − budget_used / budget_total)
+           − 0.2 × num_false_positives
+```
+
+- **Information value** — fraction of investigations spent on fraudulent publishers
+- **Budget efficiency** — fraction of budget left unused
+- **False positive penalty** — −0.2 per clean publisher incorrectly flagged
+
+Clamped to [0, 1].
 
 ## Deployment
 
