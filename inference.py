@@ -394,7 +394,7 @@ def run_episode(task_name: str, llm_client: Optional[OpenAI]) -> None:
             obs_dict = obs.model_dump()
             steps_taken += 1
 
-            reward = obs_dict.get("reward", 0.0)
+            reward = min(max(obs_dict.get("reward", 0.0), 0.01), 0.99)
             done = obs_dict.get("done", False)
             error = None
             rewards.append(reward)
